@@ -44,11 +44,24 @@ export class Customer extends Entity {
   Adres: string;
 
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
-    generated: true,
   })
-  ID?: number;
+  id?: string;
+  
+  // @property({
+  //   type: 'number',
+  //   id: true,
+  //   generated: true,
+  // })
+  // ID?: number;
+
+  // @property({
+  //   type: 'string',
+  //   id: true,
+  //   generated: true,
+  // })
+  // _id?: string;
 
 
   constructor(data?: Partial<Customer>) {
