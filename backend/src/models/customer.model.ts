@@ -48,6 +48,7 @@ export class Customer extends Entity {
     id: true,
   })
   id?: string;
+
   
   // @property({
   //   type: 'number',
