@@ -13,7 +13,7 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'db',
   connector: 'mongodb',
-  host: 'yalcinr896:m173NIF28RM6gzwc@cluster0.lopa7ph.mongodb.net',
+  host: "yalcinr896:m173NIF28RM6gzwc@cluster0.lopa7ph.mongodb.net",
   database: 'e-commerce-sample',
   protocol: 'mongodb+srv',
 };
