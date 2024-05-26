@@ -14,6 +14,7 @@ const config = {
   name: 'db',
   connector: 'mongodb',
   host: "yalcinr896:m173NIF28RM6gzwc@cluster0.lopa7ph.mongodb.net",
+  //process.env.MONGODB_HOST,
   database: 'e-commerce-sample',
   protocol: 'mongodb+srv',
 };
