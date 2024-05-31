@@ -6,6 +6,7 @@ const CustomerList = ({ setCurrentCustomer }) => {
   const dispatch = useDispatch();
   const { customers, loading, error } = useSelector(state => state.customers);
   const [query, setQuery] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
   useEffect(() => {
     dispatch(fetchCustomers());
@@ -16,29 +17,39 @@ const CustomerList = ({ setCurrentCustomer }) => {
   };
 
   const handleSearch = (e) => {
-    dispatch(fetchCustomers(`?filter={
+    const searchQuery = `?filter={
       "where":{
-                "or":
-                [
+                "or":[
                   {"Ad":{"like":"${query}"}},
                   {"Soyad":{"like":"${query}"}},
                   {"GSM":{"like":"${query}"}},
                   {"Firma":{"like":"${query}"}},
                   {"Adres":{"like":"${query}"}}
                 ]
-              }           
-      }`));
+              }
+      }`;
+    dispatch(fetchCustomers(searchQuery));
   };
 
   const handleDelete = (id) => {
     dispatch(deleteCustomer(id));
   };
 
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+    const sortQuery = `?filter={"order": "${key} ${direction}"}`;
+    dispatch(fetchCustomers(sortQuery));
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div style={{marginTop:"20px", marginBottom:"20px"}}>
+    <div style={{ marginTop: "20px", marginBottom: "20px" }}>
       <input
         type="text"
         className="form-control mb-3"
@@ -46,17 +57,16 @@ const CustomerList = ({ setCurrentCustomer }) => {
         value={query}
         onChange={handleInput}
       />
-      <button onClick={handleSearch} className="btn btn-primary btn-md" style={{float:"right"}}>Ara</button>
-      <br></br>
-      <br></br>
+      <button onClick={handleSearch} className="btn btn-primary btn-md" style={{ float: "right" }}>Ara</button>
+      <br /><br />
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>GSM</th>
-            <th>Firma</th>
-            <th>Adres</th>
+            <th onClick={() => handleSort('Ad')}>Ad {sortConfig.key === "Ad" && sortConfig.direction === "asc" ? "▲" : "▼" }</th>
+            <th onClick={() => handleSort('Soyad')}>Soyad {sortConfig.key === "Soyad" && sortConfig.direction === "asc" ? "▲" : "▼" }</th>
+            <th onClick={() => handleSort('GSM')}>GSM {sortConfig.key === "GSM" && sortConfig.direction === "asc" ? "▲" : "▼" }</th>
+            <th onClick={() => handleSort('Firma')}>Firma {sortConfig.key === "Firma" && sortConfig.direction === "asc" ? "▲" : "▼" }</th>
+            <th onClick={() => handleSort('Adres')}>Adres {sortConfig.key === "Adres" && sortConfig.direction === "asc" ? "▲" : "▼" }</th>
             <th>İşlemler</th>
           </tr>
         </thead>
@@ -69,7 +79,7 @@ const CustomerList = ({ setCurrentCustomer }) => {
               <td>{customer.Firma}</td>
               <td>{customer.Adres}</td>
               <td>
-                <button onClick={() => setCurrentCustomer(customer)} className="btn btn-warning btn-sm" style={{marginRight:"20px"}}>Düzenle</button>
+                <button onClick={() => setCurrentCustomer(customer)} className="btn btn-warning btn-sm" style={{ marginRight: "20px" }}>Düzenle</button>
                 <button onClick={() => handleDelete(customer.id)} className="btn btn-danger btn-sm">Sil</button>
               </td>
             </tr>
