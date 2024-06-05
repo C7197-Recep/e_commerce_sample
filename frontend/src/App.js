@@ -22,6 +22,7 @@ function App() {
   return (
     <>
     <Provider store={store}>
+
       <Router>      
         <Header/>
         <Switch>
@@ -33,7 +34,8 @@ function App() {
           <Route path='/Register' component={Register} />
         </Switch>
         <Footer />
-      </Router>      
+      </Router>    
+        
     </Provider>
 
     </>
