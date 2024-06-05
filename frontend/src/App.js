@@ -25,14 +25,12 @@ function App() {
       <Router>      
         <Header/>
         <Switch>
-
           <Route path='/' exact component={Home} />
           <Route path='/About' component={About} />
           <Route path='/Customers' component={Customers} />
           <Route path="/add-customer" component={CustomerForm} />
           <Route path="/edit-customer/:id" component={CustomerForm} />
           <Route path='/Register' component={Register} />
-
         </Switch>
         <Footer />
       </Router>      
