@@ -1,13 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import customerReducer from './slices/customerSlice';
+// redux/store.js
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import {thunk} from 'redux-thunk';
+import customerReducer from './reducers/customerReducer';
 
-const store = configureStore({
-  reducer: {
-    customers: customerReducer
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+const rootReducer = combineReducers({
+  customers: customerReducer,
 });
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;

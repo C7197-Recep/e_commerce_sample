@@ -1,9 +1,10 @@
+// src/pages/CustomerForm/index.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCustomer, updateCustomer, fetchCustomers } from '../../redux/slices/customerSlice'; 
 import { useParams, useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { fetchCustomers, addCustomer, updateCustomer } from '../../redux/actions/customerActions'; 
 
 const CustomerForm = () => {
   const { id } = useParams();
@@ -36,12 +37,16 @@ const CustomerForm = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     if (id) {
-      await dispatch(updateCustomer({ id, customer: values }));
+      await dispatch(updateCustomer(id, values).then(()=>{
+        setSubmitting(false);
+        history.push('/customers');     
+      }));
     } else {
-      await dispatch(addCustomer(values));
+      await dispatch(addCustomer(values).then(()=>{
+        setSubmitting(false);
+        history.push('/customers');     
+      }));
     }
-    history.push('/');
-    setSubmitting(false);
   };
 
   return (
