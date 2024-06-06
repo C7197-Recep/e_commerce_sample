@@ -23,7 +23,6 @@ function Header() {
           <Nav.Link as={NavLink} to="/" exact eventKey="home">Home</Nav.Link>
           <Nav.Link as={NavLink} to="/about" eventKey="about">About</Nav.Link>
           <Nav.Link  as={NavLink} to="/customers" eventKey="customers">Customers</Nav.Link>
-          <Nav.Link  as={NavLink} to="/register" eventKey="register">Register</Nav.Link>
         </Nav>
 
         {/* Bootstrap kullanmadan menü aktif kodu */}

@@ -36,13 +36,13 @@ const CustomerForm = () => {
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
+    history.push('/customers');  
     if (id) {
       await dispatch(updateCustomer(id, values));
     } else {
       await dispatch(addCustomer(values));
     }        
-    setSubmitting(false);
-    history.push('/customers');   
+    setSubmitting(false); 
   };
 
   return (
@@ -53,7 +53,7 @@ const CustomerForm = () => {
       enableReinitialize
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Form class="container mt-3">
           <div className="form-group">
             <label>Ad</label>
             <Field type="text" className="form-control" name="Ad" />
