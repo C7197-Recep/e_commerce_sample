@@ -1,18 +1,14 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model
-
-/* BU KISMI EKLEMEZSEK MONGODB TARAFINDA TABLE Customers SEKLINDE OLUR. */
-({
-  settings: {
-    mongodb: {
-      collection: 'customers',
-    }
-  },
-}) 
-/* BU KISMI EKLEMEZSEK MONGODB TARAFINDA TABLE Customers SEKLINDE OLUR. */
-
+@model()
 export class Customer extends Entity {
+
+  @property({
+    type: 'string',
+    id: true,
+  })
+  id?: string;
+  
   @property({
     type: 'string',
     required: true,
@@ -27,9 +23,8 @@ export class Customer extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  Firma: string;
+  Firma?: string;
 
   @property({
     type: 'string',
@@ -42,27 +37,6 @@ export class Customer extends Entity {
     required: true,
   })
   Adres: string;
-
-  @property({
-    type: 'string',
-    id: true,
-  })
-  id?: string;
-
-  
-  // @property({
-  //   type: 'number',
-  //   id: true,
-  //   generated: true,
-  // })
-  // ID?: number;
-
-  // @property({
-  //   type: 'string',
-  //   id: true,
-  //   generated: true,
-  // })
-  // _id?: string;
 
 
   constructor(data?: Partial<Customer>) {
