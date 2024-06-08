@@ -1,5 +1,8 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 /* data klasörü içinde bir FAKE DB oluşturup ona bağlayabiliriz.*/
 // const config = {
@@ -16,7 +19,7 @@ emniyete almayı unutma.*/
 const config = {
   name: 'db',
   connector: 'mongodb',
-  host: "yalcinr896:m173NIF28RM6gzwc@cluster0.lopa7ph.mongodb.net",
+  host: process.env.MONGODB_HOST,
   database: 'e-commerce-sample',
   protocol: 'mongodb+srv',
 };
