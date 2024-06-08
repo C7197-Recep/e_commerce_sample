@@ -36,13 +36,13 @@ const CustomerForm = () => {
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
-    history.push('/customers');  
     if (id) {
       await dispatch(updateCustomer(id, values));
     } else {
       await dispatch(addCustomer(values));
     }        
-    setSubmitting(false); 
+    history.push('/customers');  
+    setSubmitting(false);     
   };
 
   return (

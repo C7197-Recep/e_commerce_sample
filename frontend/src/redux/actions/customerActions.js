@@ -21,27 +21,40 @@ export const fetchCustomers = (query = '') => async dispatch => {
   };
   
   export const addCustomer = customer => async dispatch => {
-    const response = await fetch('${API_URL}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(customer)
-    });
-    const data = await response.json();
-    dispatch({ type: 'ADD_CUSTOMER', payload: data });
+    try{
+      const response = await fetch('${API_URL}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customer)
+      });
+      const data = await response.json();
+      dispatch({ type: 'ADD_CUSTOMER', payload: data });
+      return "ok";
+    }catch (error){
+      return error;
+    }
+
   };
   
   export const updateCustomer = (id, customer) => async dispatch => {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(customer)
-    });
-    const data = await response.json();
-    dispatch({ type: 'UPDATE_CUSTOMER', payload: data });
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customer)
+      });
+      const data = await response.json();
+      dispatch({ type: 'UPDATE_CUSTOMER', payload: data });
+      return "ok";  // İşlem tamamlandıktan sonra dönecek mesaj
+    } catch (error) {
+      // console.error("Error updating customer:", error);
+      // throw new Error("Failed to update customer"); // Hata durumunda mesaj döndür
+      return "error";
+    }
   };
   
   export const deleteCustomer = id => async dispatch => {
