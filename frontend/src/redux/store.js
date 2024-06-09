@@ -1,13 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import customerReducer from './slices/customerSlice';
+// redux/store.js
+import { createStore, applyMiddleware, compose } from 'redux';
+import {thunk} from 'redux-thunk';
+import rootReducer from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const store = configureStore({
-  reducer: {
-    customers: customerReducer
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false,
-  }),
-});
+const initialState = {};
+const middleware = [thunk];
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
 
 export default store;

@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import CustomerList from '../../components/Customers/CustomerList';
-import CustomerForm from '../../components/Customers/CustomerForm';
 
 const Customers = () => {
+  const history = useHistory();
   const [currentCustomer, setCurrentCustomer] = useState(null);
+
+  const handleAddCustomer = () => {
+    history.push('/add-customer');
+  };
+
+  const handleEditCustomer = (customer) => {
+    history.push(`/edit-customer/${customer.id}`);
+  };
 
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Müşteri Yönetim Sistemi</h1>
-      <CustomerForm currentCustomer={currentCustomer} setCurrentCustomer={setCurrentCustomer} />
-      <CustomerList setCurrentCustomer={setCurrentCustomer} />
+      <button className="btn btn-primary mb-3" onClick={handleAddCustomer}>Yeni Müşteri Ekle</button>
+      <CustomerList setCurrentCustomer={handleEditCustomer} />
     </div>
   );
 };

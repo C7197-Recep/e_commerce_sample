@@ -1,4 +1,4 @@
-import {ECommerceSampleApplication} from '../..';
+import {BackendApplication} from '../..';
 import {
   createRestAppClient,
   givenHttpServerConfig,
@@ -14,7 +14,7 @@ export async function setupApplication(): Promise<AppWithClient> {
     // port: +process.env.PORT,
   });
 
-  const app = new ECommerceSampleApplication({
+  const app = new BackendApplication({
     rest: restConfig,
   });
 
@@ -27,6 +27,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 }
 
 export interface AppWithClient {
-  app: ECommerceSampleApplication;
+  app: BackendApplication;
   client: Client;
 }
