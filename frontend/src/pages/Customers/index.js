@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import CustomerList from '../../components/Customers/CustomerList';
 
 const Customers = () => {
@@ -17,7 +18,7 @@ const Customers = () => {
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Müşteri Yönetim Sistemi</h1>
-      <button className="btn btn-primary mb-3" onClick={handleAddCustomer}>Yeni Müşteri Ekle</button>
+      <Button className="btn btn-primary mb-3" onClick={handleAddCustomer}>Yeni Müşteri Ekle</Button>
       <CustomerList setCurrentCustomer={handleEditCustomer} />
     </div>
   );

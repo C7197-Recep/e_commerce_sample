@@ -1,10 +1,14 @@
 // src/pages/CustomerForm/index.js
-import React, { useEffect } from 'react';
+import React, { useEffect,  useState } from 'react';
+
+import { Button, FormLabel } from 'react-bootstrap';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { fetchCustomers, addCustomer, updateCustomer } from '../../redux/actions/customerActions'; 
+import GModal from "../../components/Modal";
 
 const CustomerForm = () => {
   const { id } = useParams();
@@ -12,6 +16,11 @@ const CustomerForm = () => {
   const history = useHistory();
   const customers = useSelector(state => state.customers.customers);
   const currentCustomer = customers.find(customer => customer.id === id);
+
+  // Modalı göstermek için
+  const [showModal, setShowModal] = useState(false); 
+  const [title, setTitle] = useState("Başarılı"); 
+  const [message, setMessage] = useState("İşleminiz başarıyla tamamlandı."); 
 
   useEffect(() => {
     if (id && !currentCustomer) {
@@ -28,21 +37,50 @@ const CustomerForm = () => {
   };
 
   const validationSchema = Yup.object({
-    Ad: Yup.string().required('Ad gerekli'),
-    Soyad: Yup.string().required('Soyad gerekli'),
+    Ad: Yup.string().min(3, 'İsim çok kısa!').max(50, 'İsim çok uzun!').required('Ad gerekli'),
+    Soyad: Yup.string().min(3, 'Soyad çok kısa!').max(15, 'İsim çok uzun!').required('Soyad gerekli'),
     GSM: Yup.string().matches(/^\d{10}$/, 'GSM 10 haneli olmalıdır').required('GSM gerekli'),
-    Firma: Yup.string().required('Firma gerekli'),
-    Adres: Yup.string().required('Adres gerekli'),
+    Firma: Yup.string().min(3, 'Firma çok kısa!').max(15, 'İsim çok uzun!').required('Firma gerekli'),
+    Adres: Yup.string().min(5, 'Adres çok kısa!').max(100, 'İsim çok uzun!').required('Adres gerekli'),
   });
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = (values, { setSubmitting }) => {
+
+    try{
+    
+    
+    if (!validationSchema.isValidSync(values)) {
+
+      /* Modal */
+      setTitle("Hata!");
+      setMessage("Bilgileri kontrol ediniz.");
+      setShowModal(true);
+
+      /* Formik */
+      setSubmitting(false);
+
+      return;
+    }
+
     if (id) {
-      await dispatch(updateCustomer(id, values));
+      dispatch(updateCustomer(id, values));
     } else {
-      await dispatch(addCustomer(values));
-    }        
-    history.push('/customers');  
-    setSubmitting(false);     
+      dispatch(addCustomer(values));
+    }     
+    
+    /* Modal */
+    setTitle("Başarılı!");
+    setMessage("İşleminiz başarıyla tamamlandı.");
+    setShowModal(true);
+        
+    // history.push('/customers');  
+    setSubmitting(false);    
+  }catch(error){
+    /* Modal */
+    setTitle("Hata!");
+    setMessage(error.message);
+    setShowModal(true);
+  } 
   };
 
   return (
@@ -54,34 +92,48 @@ const CustomerForm = () => {
     >
       {({ isSubmitting }) => (
         <Form class="container mt-3">
+
+          <GModal
+            show={showModal}
+            onHide={() => {
+                setShowModal(false); 
+                if (title=="Başarılı!"){
+                  history.push('/customers');
+                }
+              }
+            }
+            title={title}
+            message={message}
+          />
+
           <div className="form-group">
-            <label>Ad</label>
+            <FormLabel>Ad</FormLabel>
             <Field type="text" className="form-control" name="Ad" />
             <ErrorMessage name="Ad" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>Soyad</label>
+            <FormLabel>Soyad</FormLabel>
             <Field type="text" className="form-control" name="Soyad" />
             <ErrorMessage name="Soyad" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>GSM</label>
+            <FormLabel>GSM</FormLabel>
             <Field type="text" className="form-control" name="GSM" />
             <ErrorMessage name="GSM" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>Firma</label>
+            <FormLabel>Firma</FormLabel>
             <Field type="text" className="form-control" name="Firma" />
             <ErrorMessage name="Firma" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>Adres</label>
+            <FormLabel>Adres</FormLabel>
             <Field type="text" className="form-control" name="Adres" />
             <ErrorMessage name="Adres" component="div" className="text-danger" />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+          <Button type="submit" className="btn btn-primary" disabled={isSubmitting}>
             {id ? 'Güncelle' : 'Ekle'}
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>

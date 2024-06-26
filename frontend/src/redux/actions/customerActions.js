@@ -31,7 +31,6 @@ export const fetchCustomers = (query = '') => async dispatch => {
       });
       const data = await response.json();
       dispatch({ type: 'ADD_CUSTOMER', payload: data });
-      return "ok";
     }catch (error){
       return error;
     }
@@ -49,7 +48,6 @@ export const fetchCustomers = (query = '') => async dispatch => {
       });
       const data = await response.json();
       dispatch({ type: 'UPDATE_CUSTOMER', payload: data });
-      return "ok";  // İşlem tamamlandıktan sonra dönecek mesaj
     } catch (error) {
       // console.error("Error updating customer:", error);
       // throw new Error("Failed to update customer"); // Hata durumunda mesaj döndür
