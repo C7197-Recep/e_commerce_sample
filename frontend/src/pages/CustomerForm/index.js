@@ -28,18 +28,18 @@ const CustomerForm = () => {
   };
 
   const validationSchema = Yup.object({
-    Ad: Yup.string().required('Ad gerekli'),
-    Soyad: Yup.string().required('Soyad gerekli'),
+    Ad: Yup.string().min(3, 'İsim çok kısa!').max(50, 'İsim çok uzun!').required('Ad gerekli'),
+    Soyad: Yup.string().min(3, 'Soyad çok kısa!').max(15, 'İsim çok uzun!').required('Soyad gerekli'),
     GSM: Yup.string().matches(/^\d{10}$/, 'GSM 10 haneli olmalıdır').required('GSM gerekli'),
-    Firma: Yup.string().required('Firma gerekli'),
-    Adres: Yup.string().required('Adres gerekli'),
+    Firma: Yup.string().min(3, 'Firma çok kısa!').max(15, 'İsim çok uzun!').required('Firma gerekli'),
+    Adres: Yup.string().min(5, 'Adres çok kısa!').max(100, 'İsim çok uzun!').required('Adres gerekli'),
   });
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = (values, { setSubmitting }) => {
     if (id) {
-      await dispatch(updateCustomer(id, values));
+      dispatch(updateCustomer(id, values));
     } else {
-      await dispatch(addCustomer(values));
+      dispatch(addCustomer(values));
     }        
     history.push('/customers');  
     setSubmitting(false);     

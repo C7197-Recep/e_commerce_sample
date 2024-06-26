@@ -28,8 +28,9 @@ export class Customer extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
-  Firma?: string;
+  Firma: string;
 
   @property({
     type: 'string',
