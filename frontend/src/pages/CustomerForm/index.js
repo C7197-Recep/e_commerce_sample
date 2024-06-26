@@ -1,10 +1,11 @@
 // src/pages/CustomerForm/index.js
-import React, { useEffect } from 'react';
+import React, { useEffect,  useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { fetchCustomers, addCustomer, updateCustomer } from '../../redux/actions/customerActions'; 
+import GModal from "../../components/Modal";
 
 const CustomerForm = () => {
   const { id } = useParams();
@@ -12,6 +13,11 @@ const CustomerForm = () => {
   const history = useHistory();
   const customers = useSelector(state => state.customers.customers);
   const currentCustomer = customers.find(customer => customer.id === id);
+
+  // Modalı göstermek için
+  const [showModal, setShowModal] = useState(false); 
+  const [title, setTitle] = useState("Başarılı"); 
+  const [message, setMessage] = useState("İşleminiz başarıyla tamamlandı."); 
 
   useEffect(() => {
     if (id && !currentCustomer) {
@@ -36,13 +42,42 @@ const CustomerForm = () => {
   });
 
   const onSubmit = (values, { setSubmitting }) => {
+
+    try{
+    
+    
+    if (!validationSchema.isValidSync(values)) {
+
+      /* Modal */
+      setTitle("Hata!");
+      setMessage("Bilgileri kontrol ediniz.");
+      setShowModal(true);
+
+      /* Formik */
+      setSubmitting(false);
+
+      return;
+    }
+
     if (id) {
       dispatch(updateCustomer(id, values));
     } else {
       dispatch(addCustomer(values));
-    }        
-    history.push('/customers');  
-    setSubmitting(false);     
+    }     
+    
+    /* Modal */
+    setTitle("Başarılı!");
+    setMessage("İşleminiz başarıyla tamamlandı.");
+    setShowModal(true);
+        
+    // history.push('/customers');  
+    setSubmitting(false);    
+  }catch(error){
+    /* Modal */
+    setTitle("Hata!");
+    setMessage(error.message);
+    setShowModal(true);
+  } 
   };
 
   return (
@@ -54,6 +89,20 @@ const CustomerForm = () => {
     >
       {({ isSubmitting }) => (
         <Form class="container mt-3">
+
+          <GModal
+            show={showModal}
+            onHide={() => {
+                setShowModal(false); 
+                if (title=="Başarılı!"){
+                  history.push('/customers');
+                }
+              }
+            }
+            title={title}
+            message={message}
+          />
+
           <div className="form-group">
             <label>Ad</label>
             <Field type="text" className="form-control" name="Ad" />

@@ -16,6 +16,7 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
 import {Customer} from '../models';
 import {CustomerRepository} from '../repositories';
@@ -129,7 +130,7 @@ export class CustomerController {
   
     // Güvenlik kontrolleri
     if (!this.isValidCustomer(customer)) {
-      throw new Error('Hata! Lütfen bilgileri kontrol ediniz.');
+      throw new HttpErrors.BadRequest('Geçersiz müşteri bilgisi');
     }
   
     await this.customerRepository.updateById(id, customer);
@@ -146,7 +147,7 @@ export class CustomerController {
 
     // Güvenlik kontrolleri
     if (!this.isValidCustomer(customer)) {
-      throw new Error('Hata! Lütfen bilgileri kontrol ediniz.');
+      throw new HttpErrors.BadRequest('Geçersiz müşteri bilgisi');
     }
 
     await this.customerRepository.replaceById(id, customer);
