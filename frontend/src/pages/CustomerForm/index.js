@@ -1,5 +1,8 @@
 // src/pages/CustomerForm/index.js
 import React, { useEffect,  useState } from 'react';
+
+import { Button, FormLabel } from 'react-bootstrap';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -104,33 +107,33 @@ const CustomerForm = () => {
           />
 
           <div className="form-group">
-            <label>Ad</label>
+            <FormLabel>Ad</FormLabel>
             <Field type="text" className="form-control" name="Ad" />
             <ErrorMessage name="Ad" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>Soyad</label>
+            <FormLabel>Soyad</FormLabel>
             <Field type="text" className="form-control" name="Soyad" />
             <ErrorMessage name="Soyad" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>GSM</label>
+            <FormLabel>GSM</FormLabel>
             <Field type="text" className="form-control" name="GSM" />
             <ErrorMessage name="GSM" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>Firma</label>
+            <FormLabel>Firma</FormLabel>
             <Field type="text" className="form-control" name="Firma" />
             <ErrorMessage name="Firma" component="div" className="text-danger" />
           </div>
           <div className="form-group">
-            <label>Adres</label>
+            <FormLabel>Adres</FormLabel>
             <Field type="text" className="form-control" name="Adres" />
             <ErrorMessage name="Adres" component="div" className="text-danger" />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+          <Button type="submit" className="btn btn-primary" disabled={isSubmitting}>
             {id ? 'Güncelle' : 'Ekle'}
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>

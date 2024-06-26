@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCustomers, deleteCustomer } from '../../redux/actions/customerActions';
+import { Button } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
@@ -48,8 +49,8 @@ const CustomerList = ({ setCurrentCustomer }) => {
       text: 'İşlemler',
       formatter: (cell, row) => (
         <div>
-          <button onClick={() => setCurrentCustomer(row)} className="btn btn-warning btn-sm" style={{ marginRight: "20px" }}>Düzenle</button>
-          <button onClick={() => handleDelete(row.id)} className="btn btn-danger btn-sm">Sil</button>
+          <Button onClick={() => setCurrentCustomer(row)} className="btn btn-warning btn-sm" style={{ marginRight: "20px" }}>Düzenle</Button>
+          <Button onClick={() => handleDelete(row.id)} className="btn btn-danger btn-sm">Sil</Button>
         </div>
       )
     }
@@ -76,7 +77,7 @@ const CustomerList = ({ setCurrentCustomer }) => {
         value={query}
         onChange={handleInput}
       />
-      <button onClick={handleSearch} className="btn btn-primary btn-md" style={{ float: "right" }}>Ara</button>
+      <Button onClick={handleSearch} className="btn btn-primary btn-md" style={{ float: "right" }}>Ara</Button>
       <br /><br />
       <BootstrapTable
         bootstrap4
